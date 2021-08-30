@@ -41,6 +41,7 @@ class ListViewComponent extends HTMLElement {
     const ul = this.querySelector('ul');
     const li = document.createElement('li');
     const checkbox = document.createElement('input');
+    const label = document.createElement('label');
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('role', 'switch');
     if (item.is_done) {
@@ -54,9 +55,9 @@ class ListViewComponent extends HTMLElement {
       }
     });
 
-    li.innerText = item.name;
-
-    li.prepend(checkbox);
+    label.innerText = item.name;
+    label.prepend(checkbox);
+    li.append(label);
     ul.appendChild(li);
   }
 

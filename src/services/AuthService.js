@@ -13,4 +13,8 @@ export default class AuthService extends BaseService
     });
     return promise;
   }
+
+  logout() {
+    window.localStorage.removeItem('access_token');
+  }
 }
