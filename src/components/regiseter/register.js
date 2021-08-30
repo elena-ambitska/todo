@@ -1,17 +1,19 @@
 import template from './register.html';
 import AuthService from '../../services/AuthService';
-import {getFormData} from '../../helpers';
+import {getFormData, redirect} from '../../helpers';
 
 class RegisterComponent extends HTMLElement {
   connectedCallback() {
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-    shadowRoot.innerHTML = template;
+    this.innerHTML = template;
 
-    shadowRoot.querySelector('form').addEventListener('submit', (event) => {
+    this.querySelector('form').addEventListener('submit', (event) => {
       event.preventDefault();
       const data = getFormData(event.currentTarget);
       const auth = new AuthService();
-      auth.register(data);
+      auth.register(data).then(() => {
+        redirect('/login');
+
+      });
     });
   }
 }

@@ -6,14 +6,13 @@ import TodoService from "../../services/TodoService";
 class ListViewComponent extends HTMLElement {
   connectedCallback() {
     this.listId = this.getListId();
+    this.todoListService = new TodoService();
 
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-    shadowRoot.innerHTML = template;
-    shadowRoot.querySelector('form').addEventListener('submit', (event) => {
+    this.innerHTML = template;
+    this.querySelector('form').addEventListener('submit', (event) => {
       event.preventDefault();
       const data = getFormData(event.currentTarget);
-      const todoService = new TodoService();
-      todoService.create(this.listId, data).then((item) => {
+      this.todoListService.create(this.listId, data).then((item) => {
         this.renderItem(item);
       });
     });
@@ -24,13 +23,13 @@ class ListViewComponent extends HTMLElement {
 
   getList() {
     (new ListService()).get(this.listId).then((data) => {
-      this.shadowRoot.querySelector('h2').innerText = data.name;
+      this.querySelector('h2').innerText = data.name;
     });
   }
 
   getTodos() {
-    (new TodoService()).getAll(this.listId).then((data) => {
-      const ul = this.shadowRoot.querySelector('ul');
+    this.todoListService.getAll(this.listId).then((data) => {
+      const ul = this.querySelector('ul');
       ul.innerText = '';
       data.forEach((item) => {
         this.renderItem(item);
@@ -39,9 +38,25 @@ class ListViewComponent extends HTMLElement {
   }
 
   renderItem(item) {
-    const ul = this.shadowRoot.querySelector('ul');
+    const ul = this.querySelector('ul');
     const li = document.createElement('li');
+    const checkbox = document.createElement('input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('role', 'switch');
+    if (item.is_done) {
+      checkbox.setAttribute('checked', '');
+    }
+    checkbox.addEventListener('change', (event) => {
+      if (event.currentTarget.checked) {
+        this.todoListService.markDone(this.listId, item.id);
+      } else {
+        this.todoListService.markUndone(this.listId, item.id);
+      }
+    });
+
     li.innerText = item.name;
+
+    li.prepend(checkbox);
     ul.appendChild(li);
   }
 

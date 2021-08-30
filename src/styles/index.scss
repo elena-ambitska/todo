@@ -1,6 +1,16 @@
+@import '~@picocss/pico/scss/pico.fluid.classless';
+
 $body-color: black;
 
 body {
   color: $body-color;
   font-family: sans-serif;
+}
+
+ul {
+  padding-left: 0;
+
+  li {
+    list-style-type: none;
+  }
 }

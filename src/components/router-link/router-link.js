@@ -1,4 +1,5 @@
 import template from './router-link.html';
+import {redirect} from "../../helpers";
 
 class RouterLinkComponent extends HTMLElement {
   connectedCallback() {
@@ -7,9 +8,7 @@ class RouterLinkComponent extends HTMLElement {
     const anker = shadowRoot.querySelector('a');
     anker.addEventListener('click', (event) => {
         event.preventDefault();
-        window.history.pushState({}, '', event.currentTarget.getAttribute('href'));
-        const pushEvent = new Event('pushstate');
-        window.dispatchEvent(pushEvent);
+        redirect(event.currentTarget.getAttribute('href'));
       });
     anker.setAttribute('href', this.getAttribute('href'));
   }

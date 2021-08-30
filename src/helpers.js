@@ -7,4 +7,10 @@ function getFormData(form) {
   return data;
 }
 
-export {getFormData};
+function redirect(path) {
+  window.history.pushState({}, '', path);
+  const pushEvent = new Event('pushstate');
+  window.dispatchEvent(pushEvent);
+}
+
+export {getFormData, redirect};

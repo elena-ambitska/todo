@@ -3,8 +3,7 @@ import template from './router.html';
 
 class RouterComponent extends HTMLElement {
   connectedCallback() {
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.innerHTML = template;
+    this.innerHTML = template;
     this.route();
 
     window.addEventListener('popstate', () => {
@@ -26,7 +25,7 @@ class RouterComponent extends HTMLElement {
         continue;
       }
       if (regExp.test(pathname)) {
-        this.shadowRoot.innerHTML = routes[key];
+        this.innerHTML = routes[key];
         break;
       }
     }
