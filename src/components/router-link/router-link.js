@@ -3,9 +3,9 @@ import {redirect} from "../../helpers";
 
 class RouterLinkComponent extends HTMLElement {
   connectedCallback() {
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-    shadowRoot.innerHTML = template;
-    const anker = shadowRoot.querySelector('a');
+    const slot = this.innerHTML;
+    this.innerHTML = template.replace('<slot></slot>', slot);
+    const anker = this.querySelector('a');
     anker.addEventListener('click', (event) => {
         event.preventDefault();
         redirect(event.currentTarget.getAttribute('href'));

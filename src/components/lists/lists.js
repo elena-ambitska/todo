@@ -31,6 +31,7 @@ class ListsComponent extends HTMLElement {
     const ul = this.querySelector('ul');
     const a = document.createElement('my-router-link');
     a.innerText = item.name;
+    a.classList.add('list-item');
     a.setAttribute('href', '/lists/' + item.id);
     const li = document.createElement('li');
     li.appendChild(a);

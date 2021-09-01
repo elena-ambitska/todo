@@ -1,6 +1,14 @@
 @import '~@picocss/pico/scss/pico.fluid.classless';
 
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0;
+}
+
 $body-color: black;
+
+.logo {
+  font-size: 32px;
+}
 
 body {
   color: $body-color;
@@ -8,7 +16,7 @@ body {
 }
 
 nav {
-  position: fixed;
+  position: static;
   width: 100%;
   padding: 0 var(--block-spacing-horizontal);
 }
@@ -21,10 +29,22 @@ ul {
   }
 }
 
+my-router-link.list-item > a, label.list-item {
+  border-radius: var(--border-radius);
+  background: var(--code-background-color);
+  padding: var(--form-element-spacing-vertical) var(--form-element-spacing-horizontal);
+  margin-bottom: var(--form-element-spacing-horizontal);
+  display: block;
+}
+
 .text-right {
   text-align: right;
 }
 
 .hidden {
   display: none;
+}
+
+body > .container {
+  padding-top: 0;
 }

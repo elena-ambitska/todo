@@ -23,7 +23,7 @@ class ListViewComponent extends HTMLElement {
 
   getList() {
     (new ListService()).get(this.listId).then((data) => {
-      this.querySelector('h2').innerText = data.name;
+      this.querySelector('.current-list').innerText = data.name;
     });
   }
 
@@ -57,6 +57,7 @@ class ListViewComponent extends HTMLElement {
 
     label.innerText = item.name;
     label.prepend(checkbox);
+    label.classList.add('list-item');
     li.append(label);
     ul.appendChild(li);
   }
