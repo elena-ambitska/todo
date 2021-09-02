@@ -54,3 +54,27 @@ label.list-item {
 body > .container {
   padding-top: 0;
 }
+
+.fade-animation {
+  animation: fadein 0.3s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+button {
+  background-position: center;
+  transition: background 0.8s;
+}
+
+button:hover {
+  background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+}
+
+button:active {
+  background-color: #6eb9f7;
+  background-size: 100%;
+  transition: background 0s;
+}

@@ -35,6 +35,7 @@ class ListsComponent extends HTMLElement {
     a.setAttribute('href', '/lists/' + item.id);
     const li = document.createElement('li');
     li.appendChild(a);
+    li.classList.add('fade-animation');
     ul.appendChild(li);
   }
 }

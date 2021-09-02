@@ -59,6 +59,7 @@ class ListViewComponent extends HTMLElement {
     label.prepend(checkbox);
     label.classList.add('list-item');
     li.append(label);
+    li.classList.add('fade-animation');
     ul.appendChild(li);
   }
 
