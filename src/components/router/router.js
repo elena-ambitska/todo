@@ -26,9 +26,11 @@ class RouterComponent extends HTMLElement {
       }
       if (regExp.test(pathname)) {
         this.innerHTML = routes[key];
-        break;
+        return;
       }
     }
+
+    this.innerHTML = '<login-form></login-form>';
   }
 }
 
