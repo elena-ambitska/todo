@@ -15,7 +15,9 @@ export default class BaseService {
       const authService = new AuthService();
       if (!authService.isLoggedIn()) {
         redirect('login');
-        return;
+        return new window.Promise((resolve, reject) => {
+          reject();
+        });
       }
 
       const accessToken = authService.getAccessToken();
