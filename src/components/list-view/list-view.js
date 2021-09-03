@@ -48,7 +48,7 @@ class ListViewComponent extends HTMLElement {
 
     deleteBtn.setAttribute('role', 'button');
     deleteBtn.classList.add('delete-btn');
-    deleteBtn.innerHTML = '&#10006;';
+    deleteBtn.innerHTML = 'X';
 
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('role', 'switch');

@@ -43,7 +43,7 @@ class ListsComponent extends HTMLElement {
 
     deleteBtn.setAttribute('role', 'button');
     deleteBtn.classList.add('delete-btn');
-    deleteBtn.innerHTML = '&#10006;';
+    deleteBtn.innerHTML = 'X';
 
     deleteBtn.addEventListener('click', (event) => {
       event.preventDefault();
