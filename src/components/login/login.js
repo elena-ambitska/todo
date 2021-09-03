@@ -1,5 +1,5 @@
 import template from './login.html';
-import {getFormData, redirect} from "../../helpers";
+import {getFormData, redirect, renderErrors} from "../../helpers";
 import AuthService from "../../services/AuthService";
 
 class LoginComponent extends HTMLElement {
@@ -11,6 +11,8 @@ class LoginComponent extends HTMLElement {
       const auth = new AuthService();
       auth.login(data).then(() => {
         redirect('/lists');
+      }, (data) => {
+        renderErrors(data);
       });
     });
   }

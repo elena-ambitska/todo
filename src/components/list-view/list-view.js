@@ -1,5 +1,5 @@
 import template from './list-view.html';
-import {getFormData} from "../../helpers";
+import {getFormData, renderErrors} from "../../helpers";
 import ListService from "../../services/ListService";
 import TodoService from "../../services/TodoService";
 
@@ -14,6 +14,8 @@ class ListViewComponent extends HTMLElement {
       const data = getFormData(event.currentTarget);
       this.todoListService.create(this.listId, data).then((item) => {
         this.renderItem(item);
+      }, (data) => {
+        renderErrors(data);
       });
     });
 
@@ -29,8 +31,8 @@ class ListViewComponent extends HTMLElement {
 
   getTodos() {
     this.todoListService.getAll(this.listId).then((data) => {
-      const ul = this.querySelector('ul');
-      ul.innerText = '';
+      this.ul = this.querySelector('ul');
+      this.ul.innerText = '';
       data.forEach((item) => {
         this.renderItem(item);
       });
@@ -38,7 +40,6 @@ class ListViewComponent extends HTMLElement {
   }
 
   renderItem(item) {
-    const ul = this.querySelector('ul');
     const li = document.createElement('li');
     const checkbox = document.createElement('input');
     const label = document.createElement('label');
@@ -80,7 +81,7 @@ class ListViewComponent extends HTMLElement {
     label.append(deleteBtn);
     li.append(label);
     li.classList.add('fade-animation');
-    ul.appendChild(li);
+    this.ul.appendChild(li);
   }
 
   getListId() {

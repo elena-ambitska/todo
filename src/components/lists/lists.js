@@ -1,5 +1,5 @@
 import template from './lists.html';
-import {getFormData} from "../../helpers";
+import {getFormData, renderErrors} from "../../helpers";
 import ListService from "../../services/ListService";
 
 class ListsComponent extends HTMLElement {
@@ -11,6 +11,8 @@ class ListsComponent extends HTMLElement {
       const listService = new ListService();
       listService.create(data).then((item) => {
         this.renderItem(item);
+      }, (data) => {
+        renderErrors(data);
       });
     });
 
@@ -19,8 +21,8 @@ class ListsComponent extends HTMLElement {
 
   getLists() {
     (new ListService()).getAll().then((data) => {
-      const ul = this.querySelector('ul');
-      ul.innerText = '';
+      this.ul = this.querySelector('ul');
+      this.ul.innerText = '';
       data.forEach((item) => {
         this.renderItem(item);
       });
@@ -28,7 +30,6 @@ class ListsComponent extends HTMLElement {
   }
 
   renderItem(item) {
-    const ul = this.querySelector('ul');
     const a = document.createElement('my-router-link');
     const deleteBtn = document.createElement('a');
 
@@ -38,7 +39,7 @@ class ListsComponent extends HTMLElement {
     const li = document.createElement('li');
     li.appendChild(a);
     li.classList.add('fade-animation');
-    ul.appendChild(li);
+    this.ul.appendChild(li);
 
     deleteBtn.setAttribute('role', 'button');
     deleteBtn.classList.add('delete-btn');

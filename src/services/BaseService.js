@@ -28,7 +28,7 @@ export default class BaseService {
     const promise = new window.Promise((resolve, reject) => {
       xhr.onload = function() {
         const data = JSON.parse(this.responseText);
-        if (this.status >= 200 || this.status < 300) {
+        if (this.status >= 200 && this.status < 300) {
           resolve(data);
         } else {
           reject(data);

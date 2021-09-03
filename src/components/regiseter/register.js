@@ -1,6 +1,6 @@
 import template from './register.html';
 import AuthService from '../../services/AuthService';
-import {getFormData, redirect} from '../../helpers';
+import {getFormData, redirect, renderErrors} from '../../helpers';
 
 class RegisterComponent extends HTMLElement {
   connectedCallback() {
@@ -12,7 +12,8 @@ class RegisterComponent extends HTMLElement {
       const auth = new AuthService();
       auth.register(data).then(() => {
         redirect('/login');
-
+      }, (data) => {
+        renderErrors(data);
       });
     });
   }
