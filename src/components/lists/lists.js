@@ -30,6 +30,8 @@ class ListsComponent extends HTMLElement {
   renderItem(item) {
     const ul = this.querySelector('ul');
     const a = document.createElement('my-router-link');
+    const deleteBtn = document.createElement('a');
+
     a.innerText = item.name;
     a.classList.add('list-item');
     a.setAttribute('href', '/lists/' + item.id);
@@ -37,6 +39,24 @@ class ListsComponent extends HTMLElement {
     li.appendChild(a);
     li.classList.add('fade-animation');
     ul.appendChild(li);
+
+    deleteBtn.setAttribute('role', 'button');
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.innerHTML = '&#10006;';
+
+    deleteBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const confirm = window.confirm('Are you sure?');
+      if (confirm) {
+        (new ListService()).delete(item.id).then(() => {
+          li.remove();
+        });
+      }
+    });
+
+    a.querySelector('a').appendChild(deleteBtn);
   }
 }
 

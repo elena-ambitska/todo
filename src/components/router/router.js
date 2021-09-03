@@ -4,7 +4,6 @@ import template from './router.html';
 class RouterComponent extends HTMLElement {
   connectedCallback() {
     this.innerHTML = template;
-    this.route();
 
     window.addEventListener('popstate', () => {
       this.route();
@@ -13,6 +12,8 @@ class RouterComponent extends HTMLElement {
     window.addEventListener('pushstate', () => {
       this.route();
     });
+
+    this.route();
   }
 
   route() {

@@ -42,6 +42,13 @@ class ListViewComponent extends HTMLElement {
     const li = document.createElement('li');
     const checkbox = document.createElement('input');
     const label = document.createElement('label');
+    const text= document.createElement('span');
+    const deleteBtn = document.createElement('a');
+
+    deleteBtn.setAttribute('role', 'button');
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.innerHTML = '&#10006;';
+
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('role', 'switch');
     if (item.is_done) {
@@ -55,9 +62,22 @@ class ListViewComponent extends HTMLElement {
       }
     });
 
-    label.innerText = item.name;
-    label.prepend(checkbox);
+    deleteBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      const confirm = window.confirm('Are you sure?');
+      if (confirm) {
+        this.todoListService.delete(this.listId, item.id).then(() => {
+          li.remove();
+        });
+      }
+    });
+
+    label.append(checkbox);
+    text.innerText = item.name;
+    label.append(text);
     label.classList.add('list-item');
+    label.append(deleteBtn);
     li.append(label);
     li.classList.add('fade-animation');
     ul.appendChild(li);
