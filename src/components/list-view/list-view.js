@@ -1,7 +1,12 @@
 import template from './list-view.html';
-import {getFormData, renderErrors} from "../../helpers";
+import {
+  getFormData,
+  renderErrors
+} from "../../helpers";
 import ListService from "../../services/ListService";
 import TodoService from "../../services/TodoService";
+import '../icon-btn/icon-btn';
+
 
 class ListViewComponent extends HTMLElement {
   connectedCallback() {
@@ -43,24 +48,71 @@ class ListViewComponent extends HTMLElement {
     const li = document.createElement('li');
     const checkbox = document.createElement('input');
     const label = document.createElement('label');
-    const text= document.createElement('span');
-    const deleteBtn = document.createElement('a');
+    const text = document.createElement('span');
+    const deleteBtn = document.createElement('icon-btn');
+    const editBtn = document.createElement('icon-btn');
+    const applyBtn = document.createElement('icon-btn');
+    const cancelBtn = document.createElement('icon-btn');
+    const input = document.createElement('input');
+    input.classList.add('hidden');
+ 
+    deleteBtn.setAttribute('class','delete-btn');
+    deleteBtn.setAttribute('icon', 'close');
 
-    deleteBtn.setAttribute('role', 'button');
-    deleteBtn.classList.add('delete-btn');
-    deleteBtn.innerHTML = 'X';
+    editBtn.setAttribute('class','edit-btn');
+    editBtn.setAttribute('icon', 'edit');
+
+    applyBtn.setAttribute('class','apply-btn hidden');
+    applyBtn.setAttribute('icon', 'check');
+  
+    cancelBtn.setAttribute('class','cancel-btn hidden');
+    cancelBtn.setAttribute('icon', 'close');
 
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('role', 'switch');
+
     if (item.is_done) {
       checkbox.setAttribute('checked', '');
     }
+
     checkbox.addEventListener('change', (event) => {
       if (event.currentTarget.checked) {
         this.todoListService.markDone(this.listId, item.id);
       } else {
         this.todoListService.markUndone(this.listId, item.id);
       }
+    });
+
+    editBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      
+      input.value = text.innerText;
+      text.style.display = 'none';
+      input.classList.remove('hidden');
+      input.focus();
+      applyBtn.show();
+      cancelBtn.show();
+      editBtn.hide();
+      deleteBtn.hide();
+    });
+
+    applyBtn.addEventListener('click', (event) =>{
+      event.preventDefault();
+      this.saveToDoItem(item, input, text);
+      this.cancelToDoItem(applyBtn, cancelBtn, editBtn, deleteBtn, input, text);
+
+    });
+    input.addEventListener('keyup', (evt) =>{
+      if (evt.key == 'Enter') {
+       this.saveToDoItem(item, input, text);
+       this.cancelToDoItem (applyBtn, cancelBtn, editBtn, deleteBtn, input, text);
+      }
+
+    });
+
+    cancelBtn.addEventListener('click', (event)=>{
+      event.preventDefault();
+      this.cancelToDoItem(applyBtn, cancelBtn, editBtn, deleteBtn, input, text);
     });
 
     deleteBtn.addEventListener('click', (event) => {
@@ -78,7 +130,11 @@ class ListViewComponent extends HTMLElement {
     text.innerText = item.name;
     label.append(text);
     label.classList.add('list-item');
+    label.append(input);
     label.append(deleteBtn);
+    label.append(editBtn);
+    label.append(cancelBtn);
+    label.append(applyBtn);
     li.append(label);
     li.classList.add('fade-animation');
     this.ul.appendChild(li);
@@ -87,6 +143,22 @@ class ListViewComponent extends HTMLElement {
   getListId() {
     const regex = /lists\/([0-9a-z]+)/;
     return window.location.pathname.match(regex)[1];
+  }
+
+  saveToDoItem(item, input, text) {
+    this.todoListService.update(this.listId, item.id, {name: input.value}).then(() =>{
+      text.innerText = input.value;
+      
+    });
+  }
+
+  cancelToDoItem (applyBtn, cancelBtn, editBtn, deleteBtn, input, text){
+    applyBtn.hide();
+    cancelBtn.hide();
+    editBtn.show();
+    deleteBtn.show();
+    input.classList.add('hidden');
+    text.style.display = '';
   }
 }
 
