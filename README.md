@@ -1,33 +1,41 @@
-# Webpack Frontend Starterkit
+# Rokupo ToDo App
 
-[![Dependabot badge](https://flat.badgen.net/dependabot/wbkd/webpack-starter?icon=dependabot)](https://dependabot.com/)
+ToDo app implementaion built with pure JS https://rokupo.com/
 
-A lightweight foundation for your next webpack based frontend project.
+## Goals of the project
 
-### Installation
+* don't use JS frameworks and libs
+* structure code and split it to components
+* make it real world project
 
-```sh
-npm install
-```
+## Used resources
 
-### Start Dev Server
+* WebPack config from https://github.com/wbkd/webpack-starter
+* ToDo list API https://rokupo-37fca.ondigitalocean.app/
+* Minimalistic CSS framework https://picocss.com/
 
-```sh
-npm start
-```
+## Routing
 
-### Build Prod Version
+* src/routes.js contains list of routes
+* src/components/router-link/router-link.js custom element that intercepts click on link,
+ updates page URL with history api push state and fires custom event pushstate
+* src/components/router/router.js listens to popstate and pushstate events and
+ tries to find corresponding component. If no component was found then displays login page
 
-```sh
-npm run build
-```
+## Components
 
-### Features:
+* Components are responsible for viewing data and handling user events.
+* All components are inheriting HTMLElement and are Custom Elements
 
-- ES6 Support via [babel](https://babeljs.io/) (v7)
-- JavaScript Linting via [eslint](https://eslint.org/)
-- SASS Support via [sass-loader](https://github.com/jtangelder/sass-loader)
-- Autoprefixing of browserspecific CSS rules via [postcss](https://postcss.org/) and [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
-- Style Linting via [stylelint](https://stylelint.io/)
+## Services
 
-When you run `npm run build` we use the [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) to move the css to a separate file. The css file gets included in the head of the `index.html`.
+* src/services/BaseService.js base service with generic method to send API calls
+* src/services/AuthService.js makes login and register API calls. Stores auth token in LocalStorage
+* src/services/ListService.js and src/services/TodoService.js CRUD for todo app resources
+
+## Future Plans
+
+* allow to specify task deadline
+* use WebSocket to autoupdate data
+* add subtasks
+* task lists sharing
